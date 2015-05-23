@@ -21,8 +21,8 @@ public class MMcc {
 		
 		// Setting
 //		GammaDistribution M1 = new GammaDistribution(1, 1.0 / 50.0); // Arrival Rate
-		ExponentialDistribution M1 = new ExponentialDistribution(1.0 / 50.0);
 //		GammaDistribution M2 = new GammaDistribution(1, 1.0 / 10.0); // Service Rate
+		ExponentialDistribution M1 = new ExponentialDistribution(1.0 / 50.0);
 		ExponentialDistribution M2 = new ExponentialDistribution(1.0 / 10.0);
 		int c1 = 8; // # of channels
 		int c2 = 8; // system capacity
