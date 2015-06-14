@@ -78,9 +78,9 @@ public class MMcc {
 			long timeEnd = System.currentTimeMillis();
 			
 			// A Round
-			System.out.println("A Execute Time: " + (timeEnd - timeStart) + " milliseconds");
-			System.out.println("A Blocking Rate: " + nBlocking / nArrival);
-			System.out.println("A Elaspsed seconds: " + maxTs);
+//			System.out.println("A Execute Time: " + (timeEnd - timeStart) + " milliseconds");
+//			System.out.println("A Blocking Rate: " + nBlocking / nArrival);
+//			System.out.println("A Elaspsed seconds: " + maxTs);
 			
 			totalExecuteTime += timeEnd - timeStart;
 			totalBlockRate += nBlocking / nArrival;
