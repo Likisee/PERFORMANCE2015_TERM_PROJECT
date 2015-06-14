@@ -2,15 +2,19 @@ package DRX;
 
 public class Event {
 
-	public int eventType;
+	enum EventType {
+	    ACTIVE, BACKGROUND
+	} 
+	
+	public EventType eventType;
 	public int timeStamp;
 	
 	public Event() 
 	{ 
-		this.eventType = 0; 
+		this.eventType = EventType.ACTIVE; 
 	}
 
-	public Event(int eventType, int timeStamp) 
+	public Event(EventType eventType, int timeStamp) 
 	{
 		this.eventType = eventType;
 		this.timeStamp = timeStamp;
