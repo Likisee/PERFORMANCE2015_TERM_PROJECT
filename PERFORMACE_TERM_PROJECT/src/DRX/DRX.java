@@ -51,25 +51,101 @@ public class DRX {
 		 * Main
 		 ******************************/
 		int Ti = 30;
-//		int Tsc = 640;
-//		int Tlc = 2560;
-		int Tsc = 20;
-		int Tlc = 80;
+//		int Tsc = 20;
+//		int Tlc = 80;
+//		int Tsc = 40;
+//		int Tlc = 160;
+//		int Tsc = 80;
+//		int Tlc = 320;
+//		int Tsc = 160;
+//		int Tlc = 640;
+//		int Tsc = 320;
+//		int Tlc = 1280;
+		int Tsc = 640;
+		int Tlc = 2560;
 		int Nsc = 2;
 		
-		double percent;
-		double sumPercent = 0;
+		// percent
+//		double percent;
+//		double sumPercent = 0;
+//		for(int i = 0 ; i < round; i++) {
+//			TreeMap<Integer, Event> mapEvent = getMapEvent(bound, tti, Ts, Tpc, Tp, TBpc, Ns, Npc);	// Simulation
+//			if(mapEvent.size() > 1) {
+//				percent = getEvaluationDRXSleepTime(mapEvent, Ton, Ti, Tsc, Tlc, Nsc);				// Evaluation: DRX Sleep Time
+//				sumPercent = sumPercent + percent;
+//				System.out.println("Round " + (i+1) + ", DRX Sleep Time (Percent): " + String.format("%.0f%%", percent * 100));
+//			} else {
+//				i--;
+//			}
+//		}
+//		System.out.println("Final, DRX Sleep Time (Percent): " + String.format("%.0f%%", sumPercent / round * 100));
+//		
+//		Nsc = 4;
+//		sumPercent = 0;
+//		for(int i = 0 ; i < round; i++) {
+//			TreeMap<Integer, Event> mapEvent = getMapEvent(bound, tti, Ts, Tpc, Tp, TBpc, Ns, Npc);	// Simulation
+//			if(mapEvent.size() > 1) {
+//				percent = getEvaluationDRXSleepTime(mapEvent, Ton, Ti, Tsc, Tlc, Nsc);				// Evaluation: DRX Sleep Time
+//				sumPercent = sumPercent + percent;
+//			} else {
+//				i--;
+//			}
+//		}
+//		System.out.println("Final, DRX Sleep Time (Percent): " + String.format("%.0f%%", sumPercent / round * 100));
+//		
+//		Nsc = 16;
+//		sumPercent = 0;
+//		for(int i = 0 ; i < round; i++) {
+//			TreeMap<Integer, Event> mapEvent = getMapEvent(bound, tti, Ts, Tpc, Tp, TBpc, Ns, Npc);	// Simulation
+//			if(mapEvent.size() > 1) {
+//				percent = getEvaluationDRXSleepTime(mapEvent, Ton, Ti, Tsc, Tlc, Nsc);				// Evaluation: DRX Sleep Time
+//				sumPercent = sumPercent + percent;
+//			} else {
+//				i--;
+//			}
+//		}
+//		System.out.println("Final, DRX Sleep Time (Percent): " + String.format("%.0f%%", sumPercent / round * 100));
+		
+		// delay
+		double delay;
+		double sumDelay = 0;
 		for(int i = 0 ; i < round; i++) {
 			TreeMap<Integer, Event> mapEvent = getMapEvent(bound, tti, Ts, Tpc, Tp, TBpc, Ns, Npc);	// Simulation
 			if(mapEvent.size() > 1) {
-				percent = getEvaluationDRXSleepTime(mapEvent, Ton, Ti, Tsc, Tlc, Nsc);					// Evaluation: DRX Sleep Time
-				sumPercent = sumPercent + percent;
-				System.out.println("Round " + (i+1) + ", DRX Sleep Time (Percent): " + String.format("%.0f%%", percent * 100));
+				delay = getEvaluationDRXDelayTime(mapEvent, Ton, Ti, Tsc, Tlc, Nsc);				// Evaluation: DRX Delay Time
+				sumDelay = sumDelay + delay;
+				System.out.println("Round " + (i+1) + ", DRX Delay Time (s): " + (delay / 1000));
 			} else {
 				i--;
 			}
 		}
-		System.out.println("Final, DRX Sleep Time (Percent): " + String.format("%.0f%%", sumPercent / round * 100));
+		System.out.println("Final, DRX Delay Time (s): " + (sumDelay / round / 1000));
+		
+		Nsc = 4;
+		sumDelay = 0;
+		for(int i = 0 ; i < round; i++) {
+			TreeMap<Integer, Event> mapEvent = getMapEvent(bound, tti, Ts, Tpc, Tp, TBpc, Ns, Npc);	// Simulation
+			if(mapEvent.size() > 1) {
+				delay = getEvaluationDRXDelayTime(mapEvent, Ton, Ti, Tsc, Tlc, Nsc);				// Evaluation: DRX Delay Time
+				sumDelay = sumDelay + delay;
+			} else {
+				i--;
+			}
+		}
+		System.out.println("Final, DRX Delay Time (s): " + (sumDelay / round / 1000));
+		
+		Nsc = 16;
+		sumDelay = 0;
+		for(int i = 0 ; i < round; i++) {
+			TreeMap<Integer, Event> mapEvent = getMapEvent(bound, tti, Ts, Tpc, Tp, TBpc, Ns, Npc);	// Simulation
+			if(mapEvent.size() > 1) {
+				delay = getEvaluationDRXDelayTime(mapEvent, Ton, Ti, Tsc, Tlc, Nsc);				// Evaluation: DRX Delay Time
+				sumDelay = sumDelay + delay;
+			} else {
+				i--;
+			}
+		}
+		System.out.println("Final, DRX Delay Time (s): " + (sumDelay / round / 1000));
 
 	}
 	
@@ -207,11 +283,85 @@ public class DRX {
 		}
 //		System.out.println("Total packets: " + cnt);
 //		System.out.println("Sleep %: " + (double) totalDrxSleepTime / (double) nextEventMs);
+		// percent
 		double percent = (double) totalDrxSleepTime / (double) nextEventMs;
 		if(percent > 1) {
 			return 1;
-		} else
+		} else {
 			return percent;
 		}
+	}
+	
+	
+	/*
+	 * Evaluation: DRX Delay Time
+	 */
+	public static double getEvaluationDRXDelayTime(TreeMap<Integer, Event> mapEvent, int Ton, int Ti, int Tsc, int Tlc, int Nsc) {
+		int cnt = 0;
+		int NscCnt = 0;
+		int totalDrxSleepTime = 0; // (ms)
+		int totalDrxDelayTime = 0; // (ms)
+		int currentEventMs = 0;
+		int nextEventMs = 0;
+		Iterator<Entry<Integer, Event>> entries = mapEvent.entrySet().iterator();
+		while (entries.hasNext()) {
+			if(cnt == 0) {
+				Entry<Integer, Event> entry = entries.next();
+				nextEventMs = entry.getKey();
+				cnt ++;
+			}
+			if(NscCnt == 0 && ((nextEventMs - currentEventMs) > (Ti + Ton))) { // short sleep: enter
+     			NscCnt++;
+				totalDrxSleepTime = totalDrxSleepTime + Tsc - Ton;
+				currentEventMs = currentEventMs + Ti + Tsc;
+				while(nextEventMs < currentEventMs && entries.hasNext()) {
+					Entry<Integer, Event> entry = entries.next();
+					nextEventMs = entry.getKey();
+					cnt ++;
+					if(nextEventMs < currentEventMs) {
+						totalDrxDelayTime = totalDrxDelayTime + (currentEventMs - nextEventMs);
+					}
+				}
+			} else if(NscCnt != 0 && NscCnt < Nsc && ((nextEventMs - currentEventMs) > Ton)) { // short sleep: continue
+				NscCnt++;
+				totalDrxSleepTime = totalDrxSleepTime + Tsc - Ton;
+				currentEventMs = currentEventMs + Tsc;
+				while(nextEventMs < currentEventMs && entries.hasNext()) {
+					Entry<Integer, Event> entry = entries.next();
+					nextEventMs = entry.getKey();
+					cnt ++;
+					if(nextEventMs < currentEventMs) {
+						totalDrxDelayTime = totalDrxDelayTime + (currentEventMs - nextEventMs);
+					}
+				}
+			} else if(NscCnt >= Nsc && ((nextEventMs - currentEventMs) > Ton)) { // long sleep: enter
+				NscCnt++;
+				totalDrxSleepTime = totalDrxSleepTime + Tlc - Ton;
+				currentEventMs = currentEventMs + Tlc;
+				while(nextEventMs < currentEventMs && entries.hasNext()) {
+					Entry<Integer, Event> entry = entries.next();
+					nextEventMs = entry.getKey();
+					cnt ++;
+					if(nextEventMs < currentEventMs) {
+						totalDrxDelayTime = totalDrxDelayTime + (currentEventMs - nextEventMs);
+					}
+				}
+			} else {
+				NscCnt = 0;
+				currentEventMs = nextEventMs;
+				if(entries.hasNext()) {
+					Entry<Integer, Event> entry = entries.next();
+					nextEventMs = entry.getKey();
+					cnt ++;
+				}
+			}
+
+		}
+//		System.out.println("Total packets: " + cnt);
+//		System.out.println("Delay (ms): " + (double) totalDrxDelayTime / (double) cnt);
+		// delay
+		double delay = (double) totalDrxDelayTime / (double) cnt;
+		return delay;
+	}
 
 }
